@@ -3,7 +3,8 @@ package main
 import (
 	"backend-sia/config"
 	"backend-sia/database"
-	"backend-sia/services"
+	"backend-sia/helpers"
+	"backend-sia/middlewares"
 	"log"
 	"net/http"
 
@@ -11,15 +12,7 @@ import (
 )
 
 func homeRootControllers(c http.ResponseWriter, r *http.Request) error {
-	return services.MessageSucces(c, "Welcome to api sistem informasi siswa", false)
-}
-
-func withErrorHandler(f func(http.ResponseWriter, *http.Request) error) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		if err := f(w, r); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}
+	return helpers.MessageSucces(c, "Welcome to api sistem informasi siswa", false)
 }
 
 func main() {
@@ -31,7 +24,7 @@ func main() {
 		AllowedHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		AllowedMethods: []string{"GET, POST, PUT, DELETE"},
 	}).Handler
-	app.HandleFunc("/", withErrorHandler(homeRootControllers))
+	app.HandleFunc("/", middlewares.WithErrorHandler(homeRootControllers))
 	port := config.Renderenv("PORT")
 	if port == "" {
 		port = "3000"
