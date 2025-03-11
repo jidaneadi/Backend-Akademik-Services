@@ -2,38 +2,40 @@ package main
 
 import (
 	"backend-sia/config"
-	"backend-sia/database"
-	"backend-sia/helpers"
-	"backend-sia/middlewares"
+	"backend-sia/databases"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/rs/cors"
 )
 
-func homeRootControllers(c http.ResponseWriter, r *http.Request) error {
-	return helpers.MessageSucces(c, "Welcome to api sistem informasi siswa", false)
-}
-
 func main() {
-	database.ConnectDB()
 	app := http.NewServeMux()
-
+	if err := config.LoadEnv(".env"); err != nil {
+		fmt.Println("Error: Failed to load file env.......")
+		return
+	}
+	databases.ConnectDB()
 	corsHandler := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
-		AllowedMethods: []string{"GET, POST, PUT, DELETE"},
+		AllowedMethods: []string{"Content-Type", "application/json"},
 	}).Handler
-	app.HandleFunc("/", middlewares.WithErrorHandler(homeRootControllers))
-	port := config.Renderenv("PORT")
+
+	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000"
+		port = ":3000"
 	}
+	app.HandleFunc("GET /api", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Welcome to API Sistem Akademik")
+	})
 	server := &http.Server{
 		Addr:    port,
 		Handler: corsHandler(app),
 	}
 
-	log.Printf("Server running in port %s ........", port)
+	log.Printf("Server running in port %s.......", port)
 	log.Fatal(server.ListenAndServe())
 }
