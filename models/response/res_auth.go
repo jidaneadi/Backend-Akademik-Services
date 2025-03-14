@@ -10,10 +10,14 @@ type Token struct {
 }
 
 type RegisterSucces struct {
-	Meta Meta `json:"meta"`
+	Meta Meta        `json:"meta"`
+	Data interface{} `json:"data"`
 }
 
 type DataRegisterSucces struct {
+	Email        string    `json:"email"`
+	No_Hp        uint64    `json:"no_hp"`
+	Status       string    `json:"status"`
 	Nisn         uint64    `json:"nisn"`
 	Id_User      string    `json:"id_user"`
 	Nama         string    `json:"nama"`

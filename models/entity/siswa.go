@@ -1,10 +1,14 @@
 package entity
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Tb_Siswa struct {
 	Nisn         uint64    `gorm:"primaryKey,allowNull=false" json:"nisn"`
-	Id_User      string    `json:"id_user"`
+	Id_User      uuid.UUID `json:"id_user"`
 	Nama         string    `json:"nama"`
 	Tempat_Lahir string    `json:"tempat_lahir"`
 	Tgl_Lahir    time.Time `json:"tgl_lahir"`

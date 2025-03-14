@@ -8,8 +8,9 @@ import (
 
 func ToRegisterResponse(r request.CreateSiswaNew) response.DataRegisterSucces {
 	return response.DataRegisterSucces{
+		Email:        r.Email,
+		No_Hp:        r.NoHp,
 		Nisn:         r.Nisn,
-		Id_User:      r.Id_User,
 		Nama:         r.Nama,
 		Tempat_Lahir: r.Tempat_Lahir,
 		Tgl_Lahir:    r.Tgl_Lahir,
