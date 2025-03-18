@@ -5,16 +5,16 @@ type MessageSucces struct {
 	Data Data `json:"data"`
 }
 
+type Error struct {
+	Meta Meta `json:"meta"`
+}
+
 type Meta struct {
 	Code    uint16 `json:"code"`
-	Status  bool   `json:"status"`
+	Status  string `json:"status"`
 	Message string `json:"message"`
 }
 
 type Data struct {
 	Data interface{} `json:"data"`
-}
-
-type Error struct {
-	Meta Meta `json:"meta"`
 }

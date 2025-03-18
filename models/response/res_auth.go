@@ -19,7 +19,6 @@ type DataRegisterSucces struct {
 	No_Hp        uint64    `json:"no_hp"`
 	Status       string    `json:"status"`
 	Nisn         uint64    `json:"nisn"`
-	Id_User      string    `json:"id_user"`
 	Nama         string    `json:"nama"`
 	Tempat_Lahir string    `json:"tempat_lahir"`
 	Tgl_Lahir    time.Time `json:"tgl_lahir"`

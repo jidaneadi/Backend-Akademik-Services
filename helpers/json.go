@@ -2,18 +2,22 @@ package helpers
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 )
 
-func ReadFromRequestBody(r *http.Request, data interface{}) {
-	d := json.NewDecoder(r.Body)
-	err := d.Decode(data)
-	ErrorBadRequest(err)
+func ReadReqBody(rq *http.Request, data interface{}) {
+	if rq.Body == nil {
+		PanicErr(errors.New("request body nil"))
+	}
+	decoder := json.NewDecoder(rq.Body)
+	err := decoder.Decode(data)
+	PanicErr(err)
 }
 
-func WriteToResponseBody(w http.ResponseWriter, m interface{}) {
+func WriteToResBody(w http.ResponseWriter, rs interface{}) {
 	w.Header().Add("Content-Type", "application/json")
 	e := json.NewEncoder(w)
-	err := e.Encode(m)
+	err := e.Encode(rs)
 	PanicErr(err)
 }

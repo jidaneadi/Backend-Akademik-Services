@@ -61,5 +61,4 @@ func ConnectDB() {
 	}
 
 	DB = conn
-
 }
