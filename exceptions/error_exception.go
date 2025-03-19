@@ -14,6 +14,9 @@ func ErrorHandler(w http.ResponseWriter, rq *http.Request, err interface{}) {
 	if errorNotFound(w, rq, err) {
 		return
 	}
+	if errorDuplicateData(w, rq, err) {
+		return
+	}
 	if validationError(w, rq, err) {
 		return
 	}
@@ -71,12 +74,12 @@ func errorBadRequest(w http.ResponseWriter, rq *http.Request, err interface{}) b
 	exception, ok := err.(ErrorBadRequest)
 	if ok {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusBadRequest)
 
 		res := response.Error{
 			Meta: response.Meta{
 				Code:    400,
-				Status:  "NOT FOUND",
+				Status:  "BAD REQUEST",
 				Message: exception.Error,
 			},
 		}
@@ -92,12 +95,33 @@ func errorFileUnsupported(w http.ResponseWriter, rq *http.Request, err interface
 	exception, ok := err.(ErrorUnsupported)
 	if ok {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusNotFound)
+		w.WriteHeader(http.StatusUnsupportedMediaType)
 
 		res := response.Error{
 			Meta: response.Meta{
 				Code:    415,
 				Status:  "FILE UNSUPPORTED",
+				Message: exception.Error,
+			},
+		}
+
+		helpers.WriteToResBody(w, res)
+		return true
+	} else {
+		return false
+	}
+}
+
+func errorDuplicateData(w http.ResponseWriter, rq *http.Request, err interface{}) bool {
+	exception, ok := err.(DataDuplicateError)
+	if ok {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusConflict)
+
+		res := response.Error{
+			Meta: response.Meta{
+				Code:    409,
+				Status:  "DATA DUPLICATE",
 				Message: exception.Error,
 			},
 		}

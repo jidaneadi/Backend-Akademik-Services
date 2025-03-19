@@ -8,5 +8,6 @@ import (
 func AuthRoutes(a authcontrollers.AuthControllers, r *http.ServeMux) {
 
 	r.HandleFunc("/auth/register", a.Register)
+	r.HandleFunc("/auth/login", a.Login)
 
 }

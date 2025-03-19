@@ -43,3 +43,26 @@ func (s *AuthControllersImpl) Register(w http.ResponseWriter, rq *http.Request) 
 	}
 	helpers.WriteToResBody(w, res)
 }
+
+func (s *AuthControllersImpl) Login(w http.ResponseWriter, rq *http.Request) {
+	if rq.Method != http.MethodPost {
+		http.Error(w, "Method NotAllowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	if rq.Header.Get("Content-Type") != "application/json" {
+		panic(exceptions.NewErrorUnsupported("Invalid Content-Type, expected application/json"))
+	}
+	reqBody := new(request.LoginUser)
+	helpers.ReadReqBody(rq, reqBody)
+	loginServices := s.AuthServices.Login(rq.Context(), *reqBody)
+	res := response.LoginSucces{
+		Meta: response.Meta{
+			Code:    200,
+			Status:  "SUCCES",
+			Message: "Login sukses",
+		},
+		Data: loginServices,
+	}
+	helpers.WriteToResBody(w, res)
+}

@@ -31,6 +31,11 @@ type DataRegisterSucces struct {
 }
 
 type LoginSucces struct {
-	Meta Meta `json:"meta"`
-	Data Data `json:"data"`
+	Meta Meta            `json:"meta"`
+	Data DataLoginSucces `json:"data"`
+}
+
+type DataLoginSucces struct {
+	AccesToken   string `json:"acces_token"`
+	RefreshToken string `json:"refresh_token"`
 }

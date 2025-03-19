@@ -23,3 +23,11 @@ type ErrorUnsupported struct {
 func NewErrorUnsupported(err string) ErrorUnsupported {
 	return ErrorUnsupported{Error: err}
 }
+
+type DataDuplicateError struct {
+	Error string
+}
+
+func NewDataDuplicateError(err string) DataDuplicateError {
+	return DataDuplicateError{Error: err}
+}

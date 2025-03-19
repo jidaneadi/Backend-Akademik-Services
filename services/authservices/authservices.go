@@ -8,4 +8,5 @@ import (
 
 type AuthServices interface {
 	Register(c context.Context, rq request.CreateSiswaNew) response.DataRegisterSucces
+	Login(c context.Context, rq request.LoginUser) response.DataLoginSucces
 }

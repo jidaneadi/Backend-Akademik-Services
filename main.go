@@ -10,6 +10,7 @@ import (
 	"project-sia/databases"
 	"project-sia/exceptions"
 	"project-sia/middlewares"
+	"project-sia/repository/siswarepository"
 	"project-sia/routes"
 	"project-sia/services/authservices"
 
@@ -36,7 +37,8 @@ func main() {
 	databases.ConnectDB()
 	validate := validator.New()
 
-	authService := authservices.NewAuthServices(validate)
+	siswarepository := siswarepository.NewSiswaRepository()
+	authService := authservices.NewAuthServices(validate, siswarepository)
 	authController := authcontrollers.NewAuthControllers(authService)
 	routes.AuthRoutes(authController, app)
 

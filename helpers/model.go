@@ -9,7 +9,7 @@ import (
 func ToRegisterResponse(r request.CreateSiswaNew) response.DataRegisterSucces {
 	parseTgl, err := time.Parse("2006-01-02", r.Tgl_Lahir)
 	if err != nil {
-		panic(err)
+		PanicErr(err)
 	}
 	return response.DataRegisterSucces{
 		Email:        r.Email,
@@ -25,5 +25,12 @@ func ToRegisterResponse(r request.CreateSiswaNew) response.DataRegisterSucces {
 		Ket_Lulus:    r.Ket_Lulus,
 		Created_At:   time.Now(),
 		Updated_At:   time.Now(),
+	}
+}
+
+func ToLoginResponse(r request.ReqToken) response.DataLoginSucces {
+	return response.DataLoginSucces{
+		AccesToken:   r.AccesToken,
+		RefreshToken: r.RefreshToken,
 	}
 }
